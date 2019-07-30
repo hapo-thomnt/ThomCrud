@@ -41,16 +41,20 @@ class ContactController extends Controller
             'last_name'=>'required',
             'email'=>'required'
         ]);
+        $imageName = $request->file('avatar')->getClientOriginalName();
+        $imageName = time().'_'.$imageName ;
+        $request->file('avatar')->move('avatar', $imageName);
 
         $contact = new Contact([
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
             'email' => $request->get('email'),
             'job_title' => $request->get('job_title'),
-            'adress' => $request->get('adress')
+            'adress' => $request->get('adress'),
+            'avatar' => $imageName
         ]);
         $contact->save();
-        return redirect('/contacts')->with('success','Contact saved');
+        return redirect('/contacts')->with('success','Created Successfully');
 
     }
 
@@ -91,6 +95,9 @@ class ContactController extends Controller
             'last_name'=>'required',
             'email'=>'required'
         ]);
+        $imageName = $request->file('avatar')->getClientOriginalName();
+        $imageName = time().'_'.$imageName ;
+        $request->file('avatar')->move('avatar', $imageName);
 
         $contact = Contact::find($id);
         $contact->first_name =  $request->get('first_name');
@@ -98,6 +105,7 @@ class ContactController extends Controller
         $contact->email = $request->get('email');
         $contact->job_title = $request->get('job_title');
         $contact->adress = $request->get('adress');
+        $contact->avatar = $imageName;
         $contact->save();
 
         return redirect('/contacts')->with('success', 'Contact updated!');

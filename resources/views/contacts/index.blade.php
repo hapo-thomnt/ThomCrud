@@ -15,7 +15,7 @@
                 <table class="table table-striped">
                 <thead>
                 <tr>
-                    <td>ID</td>
+                    <td>Avatar</td>
                     <td>Name</td>
                     <td>Email</td>
                     <td>Job Title</td>
@@ -26,7 +26,9 @@
                 <tbody>
                 @foreach($contacts as $contact)
                     <tr>
-                        <td>{{$contact->id}}</td>
+                        <td>
+                            <img style="width: 60px; height: 60px" src="{{ asset("avatar/$contact->avatar") }}" alt="avatar">
+                        </td>
                         <td>{{$contact->first_name}} {{$contact->last_name}}</td>
                         <td>{{$contact->email}}</td>
                         <td>{{$contact->job_title}}</td>
