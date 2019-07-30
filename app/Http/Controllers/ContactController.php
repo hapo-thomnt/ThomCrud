@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact;
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
@@ -97,7 +98,7 @@ class ContactController extends Controller
         ]);
         $imageName = $request->file('avatar')->getClientOriginalName();
         $imageName = time().'_'.$imageName ;
-        $request->file('avatar')->move('avatar', $imageName);
+        Storage::putFile('avatar', $request->file('avatar'));
 
         $contact = Contact::find($id);
         $contact->first_name =  $request->get('first_name');
