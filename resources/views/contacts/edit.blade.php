@@ -14,7 +14,7 @@
                 </div>
                 <br />
             @endif
-            <form method="post" action="{{ route('contacts.update', $contact->id) }}">
+            <form method="post" action="{{ route('contacts.update', $contact->id) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
                 <div class="form-group">
@@ -39,6 +39,10 @@
                 <div class="form-group">
                     <label for="job_title">Job Title:</label>
                     <input type="text" class="form-control" name="job_title" value="{{ $contact->job_title }}" />
+                </div>
+                <div class="form-group">
+                    <label for="avatar">Upload Avatar:</label>
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" name="avatar"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

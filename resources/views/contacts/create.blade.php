@@ -14,7 +14,7 @@
                         </ul>
                     </div><br />
                 @endif
-                <form method="post" action="{{ route('contacts.store') }}">
+                <form method="post" action="{{ route('contacts.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="first_name">First Name:</label>
@@ -37,6 +37,10 @@
                     <div class="form-group">
                         <label for="job_title">Job Title:</label>
                         <input type="text" class="form-control" name="job_title"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar">Upload Avatar:</label>
+                        <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" name="avatar"/>
                     </div>
                     <button type="submit" class="btn btn-primary-outline">Add contact</button>
                 </form>
