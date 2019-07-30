@@ -27,13 +27,13 @@
                 @foreach($contacts as $contact)
                     <tr>
                         <td>
-                            <img style="width: 60px; height: 60px" src="{{ asset("avatar/$contact->avatar") }}" alt="avatar">
+                            <img class="avatar"  src="{{ asset(config('app.file_path').$contact->avatar) }}" alt="avatar">
                         </td>
-                        <td>{{$contact->first_name}} {{$contact->last_name}}</td>
-                        <td>{{$contact->email}}</td>
-                        <td>{{$contact->job_title}}</td>
-                        <td>{{$contact->adress}}</td>
-                        <td>{{$contact->country}}</td>
+                        <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
+                        <td>{{ $contact->email }}</td>
+                        <td>{{ $contact->job_title }}</td>
+                        <td>{{ $contact->adress }}</td>
+                        <td>{{ $contact->country }}</td>
                         <td>
                             <a href="{{ route('contacts.edit',$contact->id)}}" class="btn btn-primary">Edit</a>
                         </td>

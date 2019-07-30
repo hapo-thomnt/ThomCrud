@@ -42,7 +42,7 @@
                         <label for="avatar">Upload Avatar:</label>
                         <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" name="avatar"/>
                     </div>
-                    <button type="submit" class="btn btn-primary-outline">Add contact</button>
+                    <button type="submit" class="btn btn-primary">Add contact</button>
                 </form>
             </div>
         </div>

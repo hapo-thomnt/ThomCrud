@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact;
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
@@ -15,7 +16,7 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::all();
-        return view('contacts.index',compact('contacts'));
+        return view('contacts.index', compact('contacts'));
     }
 
     /**
@@ -37,13 +38,18 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required'
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' =>'required'
         ]);
-        $imageName = $request->file('avatar')->getClientOriginalName();
-        $imageName = time().'_'.$imageName ;
-        $request->file('avatar')->move('avatar', $imageName);
+
+        //check if is there image selected
+        $imageName= Config('app.avatar_icon');
+        $avatar = $request->file('avatar');
+        if($avatar){
+            $storagePath= Storage::putFile ('public/avatar/', $request->file('avatar'));
+            $imageName = basename($storagePath);
+        }
 
         $contact = new Contact([
             'first_name' => $request->get('first_name'),
@@ -54,7 +60,7 @@ class ContactController extends Controller
             'avatar' => $imageName
         ]);
         $contact->save();
-        return redirect('/contacts')->with('success','Created Successfully');
+        return redirect('/contacts')->with('success', __('messages.contactCreateSuccess'));
 
     }
 
@@ -78,7 +84,7 @@ class ContactController extends Controller
     public function edit($id)
     {
         $contact = Contact::find($id);
-        return view('contacts.edit',compact('contact'));
+        return view('contacts.edit', compact('contact'));
     }
 
     /**
@@ -91,13 +97,10 @@ class ContactController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required'
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required'
         ]);
-        $imageName = $request->file('avatar')->getClientOriginalName();
-        $imageName = time().'_'.$imageName ;
-        $request->file('avatar')->move('avatar', $imageName);
 
         $contact = Contact::find($id);
         $contact->first_name =  $request->get('first_name');
@@ -105,10 +108,18 @@ class ContactController extends Controller
         $contact->email = $request->get('email');
         $contact->job_title = $request->get('job_title');
         $contact->adress = $request->get('adress');
-        $contact->avatar = $imageName;
+
+        //check if is there image selected
+        $avatar = $request->file('avatar');
+        if($avatar){
+            $storagePath= Storage::putFile ('public/avatar/', $request->file('avatar'));
+            $imageName = basename($storagePath);
+            $contact->avatar = $imageName;
+        }
+
         $contact->save();
 
-        return redirect('/contacts')->with('success', 'Contact updated!');
+        return redirect('/contacts')->with('success', __('messages.contactUpdateSuccess'));
     }
 
     /**
@@ -124,6 +135,6 @@ class ContactController extends Controller
             $destroy = Contact::destroy($id);
         }
         //TODO
-        return redirect('/contacts')->with('success','Contact deleted!');
+        return redirect('/contacts')->with('success', 'Contact deleted!');
     }
 }

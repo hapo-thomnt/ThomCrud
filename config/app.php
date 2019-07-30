@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('DEFAULT_LANG'),
 
     /*
     |--------------------------------------------------------------------------
@@ -227,5 +227,26 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+    /*
+|--------------------------------------------------------------------------
+| File Path
+|--------------------------------------------------------------------------
+|
+| This key is used to define path to uploaded image
+|
+*/
+
+    'file_path' => env('FILE_PATH', '/'),
+    /*
+|--------------------------------------------------------------------------
+| Default avatar for user
+|--------------------------------------------------------------------------
+|
+| This key is used to define path to uploaded image
+|
+*/
+
+    'avatar_icon' => 'avatar.png',
 
 ];
