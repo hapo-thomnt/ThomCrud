@@ -28,6 +28,7 @@
                     <tr>
                         <td>
                             <img style="width: 60px; height: 60px" src="{{ asset("avatar/$contact->avatar") }}" alt="avatar">
+                            <img style="width: 60px; height: 60px" src="{{ asset(config('app.file_path').$contact->avatar) }}" alt="avatar">
                         </td>
                         <td>{{$contact->first_name}} {{$contact->last_name}}</td>
                         <td>{{$contact->email}}</td>

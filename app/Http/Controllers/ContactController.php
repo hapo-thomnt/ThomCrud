@@ -42,9 +42,9 @@ class ContactController extends Controller
             'last_name'=>'required',
             'email'=>'required'
         ]);
-        $imageName = $request->file('avatar')->getClientOriginalName();
+        $imageName = $request->file('avatar')->getClientOriginalExtension();
         $imageName = time().'_'.$imageName ;
-        $request->file('avatar')->move('avatar', $imageName);
+        Storage::putFileAs ('avatar', $request->file('avatar'),$imageName);
 
         $contact = new Contact([
             'first_name' => $request->get('first_name'),
