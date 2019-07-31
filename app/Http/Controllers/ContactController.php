@@ -102,6 +102,10 @@ class ContactController extends Controller
             'email' => 'required'
         ]);
 
+        $imageName = $request->file('avatar')->getClientOriginalExtension();
+        $imageName = time().'_'.$imageName ;
+        Storage::putFileAs ('avatar', $request->file('avatar'),$imageName);
+
         $contact = Contact::find($id);
         $contact->first_name =  $request->get('first_name');
         $contact->last_name = $request->get('last_name');
