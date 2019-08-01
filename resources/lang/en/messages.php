@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'contactCreateSuccess' => 'User Created Successfully',
-    'contactCreateFailure' => 'Opp! Something went wrong! Please try again later',
-    'contactUpdateSuccess' => 'Update Successfully ',
+    'contact_create_success' => 'User Created Successfully',
+    'contact_create_failure' => 'Opp! Something went wrong! Please try again later',
+    'contact_update_success' => 'Update Successfully ',
 
 
 ];

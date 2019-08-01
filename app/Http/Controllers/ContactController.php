@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CreateContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 
 class ContactController extends Controller
 {
@@ -16,7 +18,10 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::all();
-        return view('contacts.index', compact('contacts'));
+        $data = [
+            'contacts' => $contacts,
+        ];
+        return view('contacts.index', $data);
     }
 
     /**
@@ -35,32 +40,17 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateContactRequest $request)
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' =>'required'
-        ]);
-
-        //check if is there image selected
-        $imageName= Config('app.avatar_icon');
-        $avatar = $request->file('avatar');
-        if($avatar){
+        $input = $request->except('avatar');
+        $contact = $request->all();
+        if($request->hasFile('avatar')){
             $storagePath= Storage::putFile ('public/avatar/', $request->file('avatar'));
-            $imageName = basename($storagePath);
+            $input['avatar']  = basename($storagePath);
         }
+        $user = Contact::create($input);
 
-        $contact = new Contact([
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'email' => $request->get('email'),
-            'job_title' => $request->get('job_title'),
-            'adress' => $request->get('adress'),
-            'avatar' => $imageName
-        ]);
-        $contact->save();
-        return redirect('/contacts')->with('success', __('messages.contactCreateSuccess'));
+        return redirect()->route('contacts.index')->with('success', __('messages.contact_create_success'));
 
     }
 
@@ -94,36 +84,24 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateContactRequest $request, $id)
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required'
-        ]);
-
         $imageName = $request->file('avatar')->getClientOriginalExtension();
         $imageName = time().'_'.$imageName ;
         Storage::putFileAs ('avatar', $request->file('avatar'),$imageName);
 
-        $contact = Contact::find($id);
-        $contact->first_name =  $request->get('first_name');
-        $contact->last_name = $request->get('last_name');
-        $contact->email = $request->get('email');
-        $contact->job_title = $request->get('job_title');
-        $contact->adress = $request->get('adress');
+        $contact = Contact::findOrFail($id);
+        $input = $request->except('avatar');
 
-        //check if is there image selected
-        $avatar = $request->file('avatar');
-        if($avatar){
+        if($request->hasFile('avatar')){
             $storagePath= Storage::putFile ('public/avatar/', $request->file('avatar'));
             $imageName = basename($storagePath);
-            $contact->avatar = $imageName;
+            $input['avatar'] = $imageName;
         }
 
-        $contact->save();
+        $contact->update($input);
 
-        return redirect('/contacts')->with('success', __('messages.contactUpdateSuccess'));
+        return redirect()->route('contacts.index')->with('success', __('messages.contact_update_success'));
     }
 
     /**

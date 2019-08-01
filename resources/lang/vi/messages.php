@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'contactCreateSuccess' => 'Đăng ký liên hệ thành công',
-    'contactCreateFailure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
-    'contactUpdateSuccess' => 'Cập nhật thành công ',
+    'contact_create_success' => 'Đăng ký liên hệ thành công',
+    'contact_create_failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
+    'contact_update_success' => 'Cập nhật thành công ',
 
 ];
