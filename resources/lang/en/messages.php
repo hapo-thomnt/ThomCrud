@@ -16,6 +16,6 @@ return [
     'contact_create_success' => 'User Created Successfully',
     'contact_create_failure' => 'Opp! Something went wrong! Please try again later',
     'contact_update_success' => 'Update Successfully ',
-
+    'contact_delete_success' => 'Contact Deleted Successfully ',
 
 ];
