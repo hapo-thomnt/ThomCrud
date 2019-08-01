@@ -44,10 +44,15 @@ class ContactController extends Controller
     {
         $input = $request->except('avatar');
         $contact = $request->all();
+
         if($request->hasFile('avatar')){
             $storagePath= Storage::putFile ('public/avatar/', $request->file('avatar'));
-            $input['avatar']  = basename($storagePath);
+            $imageName  = basename($storagePath);
+        }else{
+            $imageName= Config('app.avatar_icon');
         }
+        $input['avatar']  = $imageName;
+
         $user = Contact::create($input);
 
         return redirect()->route('contacts.index')->with('success', __('messages.contact_create_success'));
@@ -86,10 +91,6 @@ class ContactController extends Controller
      */
     public function update(UpdateContactRequest $request, $id)
     {
-        $imageName = $request->file('avatar')->getClientOriginalExtension();
-        $imageName = time().'_'.$imageName ;
-        Storage::putFileAs ('avatar', $request->file('avatar'),$imageName);
-
         $contact = Contact::findOrFail($id);
         $input = $request->except('avatar');
 
@@ -116,7 +117,7 @@ class ContactController extends Controller
         if($contact){
             $destroy = Contact::destroy($id);
         }
-        //TODO
-        return redirect('/contacts')->with('success', 'Contact deleted!');
+
+        return redirect()->route('contacts.index')->with('success', __('messages.contact_delete_success'));
     }
 }
