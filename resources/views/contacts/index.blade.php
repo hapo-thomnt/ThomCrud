@@ -1,5 +1,7 @@
 @extends('base')
-
+@section('css')
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 @section('main')
     <div class="row">
         <div class="col-sm-12">
@@ -27,12 +29,7 @@
                 @foreach($contacts as $contact)
                     <tr>
                         <td>
-<<<<<<< HEAD
                             <img class="avatar"  src="{{ asset(config('app.file_path').$contact->avatar) }}" alt="avatar">
-=======
-                            <img style="width: 60px; height: 60px" src="{{ asset("avatar/$contact->avatar") }}" alt="avatar">
-                            <img style="width: 60px; height: 60px" src="{{ asset(config('app.file_path').$contact->avatar) }}" alt="avatar">
->>>>>>> 3fbc3463b008bd83a29b49c45c6630c92bff8f8b
                         </td>
                         <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
                         <td>{{ $contact->email }}</td>

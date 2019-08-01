@@ -60,7 +60,7 @@ class ContactController extends Controller
             'avatar' => $imageName
         ]);
         $contact->save();
-        return redirect('/contacts')->with('success', __('messages.contactCreateSuccess'));
+        return redirect('/contacts')->with('success', __('messages.contact_create_success'));
 
     }
 
@@ -123,7 +123,7 @@ class ContactController extends Controller
 
         $contact->save();
 
-        return redirect('/contacts')->with('success', __('messages.contactUpdateSuccess'));
+        return redirect('/contacts')->with('success', __('messages.contact_update_success'));
     }
 
     /**
