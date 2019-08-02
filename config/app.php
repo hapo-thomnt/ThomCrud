@@ -250,4 +250,16 @@ return [
 
     'avatar_icon' => 'avatar.png',
 
+
+/*
+|--------------------------------------------------------------------------
+| Number of element in one page use pagination
+|--------------------------------------------------------------------------
+|
+| This key is used to define Number of element in one page use pagination
+|
+*/
+
+    'pagin_count_one_page' => 3,
+
 ];

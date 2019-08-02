@@ -13,9 +13,17 @@ return [
     |
     */
 
-    'contact_create_success' => 'Đăng ký liên hệ thành công',
-    'contact_create_failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
-    'contact_update_success' => 'Cập nhật thành công ',
-    'contact_delete_success' => 'Xóa thành công ',
+    'contact' => [
+        'create' => [
+            'success' => 'Đăng ký liên hệ thành công',
+            'failure' => 'Ui có lỗi xảy ra rồi! Hãy thử lại sau nhé!',
+        ],
+        'update' => [
+            'success' => 'Cập nhật thành công ',
+        ],
+        'delete' => [
+            'success' => 'Xóa thành công',
+        ],
+    ]
 
 ];

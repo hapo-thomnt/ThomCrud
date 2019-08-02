@@ -13,9 +13,17 @@ return [
     |
     */
 
-    'contact_create_success' => 'User Created Successfully',
-    'contact_create_failure' => 'Opp! Something went wrong! Please try again later',
-    'contact_update_success' => 'Update Successfully ',
-    'contact_delete_success' => 'Contact Deleted Successfully ',
+    'contact' => [
+        'create' => [
+            'success' => 'User Created Successfully',
+            'failure' => 'Opp! Something went wrong! Please try again later',
+        ],
+        'update' => [
+            'success' => 'Update Successfully',
+        ],
+        'delete' => [
+            'success' => 'Contact Deleted Successfully',
+        ],
+    ]
 
 ];

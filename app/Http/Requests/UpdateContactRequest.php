@@ -24,9 +24,9 @@ class UpdateContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|unique:contacts|max:255',
         ];
     }
 }
