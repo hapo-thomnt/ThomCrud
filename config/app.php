@@ -248,7 +248,7 @@ return [
 |
 */
 
-    'avatar_icon' => 'avatar.png',
+    'avatar_default' => 'avatar.png',
 
 
 /*
@@ -260,6 +260,6 @@ return [
 |
 */
 
-    'pagin_count_one_page' =>  env('COUNT_RECORD_PER_PAGE', 20 ),
+    'paginate' =>  env('PAGINATE', 20),
 
 ];

@@ -17,7 +17,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::paginate(config('app.pagin_count_one_page'));
+        $contacts = Contact::paginate(config('app.paginate'));
         $data = [
             'contacts' => $contacts,
         ];
@@ -46,10 +46,10 @@ class ContactController extends Controller
         $contact = $request->all();
 
         if ($request->hasFile('avatar')) {
-            $storagePath= Storage::putFile ('public/avatar/', $request->file('avatar'));
+            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
             $imageName  = basename($storagePath);
         } else {
-            $imageName= config('app.avatar_icon');
+            $imageName= config('app.avatar_default');
         }
         $input['avatar']  = $imageName;
 
@@ -95,8 +95,8 @@ class ContactController extends Controller
         $contact = Contact::findOrFail($id);
         $input = $request->except('avatar');
 
-        if($request->hasFile('avatar')){
-            $storagePath= Storage::putFile ('public/avatar/', $request->file('avatar'));
+        if ($request->hasFile('avatar')) {
+            $storagePath = Storage::putFile ('public/avatar/', $request->file('avatar'));
             $imageName = basename($storagePath);
             $input['avatar'] = $imageName;
         }
