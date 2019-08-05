@@ -51,7 +51,7 @@
                 </tbody>
             </table>
 
-                {!! $contacts->render() !!}
+                {{ $contacts->links() }}
             <div>
             </div>
 @endsection

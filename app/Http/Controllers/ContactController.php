@@ -17,8 +17,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $countElementOnePage = config('app.pagin_count_one_page');
-        $contacts = Contact::paginate($countElementOnePage);
+        $contacts = Contact::paginate(config('app.pagin_count_one_page'));
         $data = [
             'contacts' => $contacts,
         ];
@@ -57,7 +56,7 @@ class ContactController extends Controller
         $user = Contact::create($input);
 
         return redirect()->route('contacts.index')
-            ->with('success', __('messages.contact_create_success'));
+            ->with('success', __('messages.contact.create.success'));
 
     }
 
@@ -104,7 +103,7 @@ class ContactController extends Controller
 
         $contact->update($input);
 
-        return redirect()->route('contacts.index')->with('success', __('messages.contact_update_success'));
+        return redirect()->route('contacts.index')->with('success', __('messages.contact.update.success'));
     }
 
     /**
@@ -120,6 +119,6 @@ class ContactController extends Controller
             $destroy = Contact::destroy($id);
         }
 
-        return redirect()->route('contacts.index')->with('success', __('messages.contact_delete_success'));
+        return redirect()->route('contacts.index')->with('success', __('messages.contact.delete.success'));
     }
 }

@@ -260,6 +260,6 @@ return [
 |
 */
 
-    'pagin_count_one_page' => 3,
+    'pagin_count_one_page' =>  env('COUNT_RECORD_PER_PAGE', 20 ),
 
 ];
