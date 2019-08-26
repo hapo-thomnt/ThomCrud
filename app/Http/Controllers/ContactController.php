@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CreateContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 
 class ContactController extends Controller
 {
@@ -14,8 +17,11 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
-        return view('contacts.index',compact('contacts'));
+        $contacts = Contact::paginate(config('app.paginate'));
+        $data = [
+            'contacts' => $contacts,
+        ];
+        return view('contacts.index', $data);
     }
 
     /**
@@ -34,27 +40,23 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateContactRequest $request)
     {
-        $request->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required'
-        ]);
-        $imageName = $request->file('avatar')->getClientOriginalName();
-        $imageName = time().'_'.$imageName ;
-        $request->file('avatar')->move('avatar', $imageName);
+        $input = $request->except('avatar');
+        $contact = $request->all();
 
-        $contact = new Contact([
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'email' => $request->get('email'),
-            'job_title' => $request->get('job_title'),
-            'adress' => $request->get('adress'),
-            'avatar' => $imageName
-        ]);
-        $contact->save();
-        return redirect('/contacts')->with('success','Created Successfully');
+        if ($request->hasFile('avatar')) {
+            $storagePath = Storage::putFile('public/avatar/', $request->file('avatar'));
+            $imageName  = basename($storagePath);
+        } else {
+            $imageName= config('app.avatar_default');
+        }
+        $input['avatar']  = $imageName;
+
+        $user = Contact::create($input);
+
+        return redirect()->route('contacts.index')
+            ->with('success', __('messages.contact.create.success'));
 
     }
 
@@ -78,7 +80,7 @@ class ContactController extends Controller
     public function edit($id)
     {
         $contact = Contact::find($id);
-        return view('contacts.edit',compact('contact'));
+        return view('contacts.edit', compact('contact'));
     }
 
     /**
@@ -88,27 +90,20 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateContactRequest $request, $id)
     {
-        $request->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required'
-        ]);
-        $imageName = $request->file('avatar')->getClientOriginalName();
-        $imageName = time().'_'.$imageName ;
-        $request->file('avatar')->move('avatar', $imageName);
+        $contact = Contact::findOrFail($id);
+        $input = $request->except('avatar');
 
-        $contact = Contact::find($id);
-        $contact->first_name =  $request->get('first_name');
-        $contact->last_name = $request->get('last_name');
-        $contact->email = $request->get('email');
-        $contact->job_title = $request->get('job_title');
-        $contact->adress = $request->get('adress');
-        $contact->avatar = $imageName;
-        $contact->save();
+        if ($request->hasFile('avatar')) {
+            $storagePath = Storage::putFile ('public/avatar/', $request->file('avatar'));
+            $imageName = basename($storagePath);
+            $input['avatar'] = $imageName;
+        }
 
-        return redirect('/contacts')->with('success', 'Contact updated!');
+        $contact->update($input);
+
+        return redirect()->route('contacts.index')->with('success', __('messages.contact.update.success'));
     }
 
     /**
@@ -123,7 +118,7 @@ class ContactController extends Controller
         if($contact){
             $destroy = Contact::destroy($id);
         }
-        //TODO
-        return redirect('/contacts')->with('success','Contact deleted!');
+
+        return redirect()->route('contacts.index')->with('success', __('messages.contact.delete.success'));
     }
 }
